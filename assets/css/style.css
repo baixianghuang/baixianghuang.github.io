@@ -1,0 +1,254 @@
+/* ==========================================================================
+   Baixiang Huang — academic homepage
+   Design adapted from the "Pixl" theme: DM Mono type, hard offset shadows.
+   ========================================================================== */
+
+/* Fonts ------------------------------------------------------------------- */
+@font-face {
+	font-family: "DM Mono";
+	font-style: normal;
+	font-weight: 300;
+	font-display: block;
+	src: url("../fonts/DMMono-Light.ttf") format("truetype");
+}
+@font-face {
+	font-family: "DM Mono";
+	font-style: italic;
+	font-weight: 300;
+	font-display: block;
+	src: url("../fonts/DMMono-LightItalic.ttf") format("truetype");
+}
+@font-face {
+	font-family: "DM Mono";
+	font-style: normal;
+	font-weight: 400;
+	font-display: block;
+	src: url("../fonts/DMMono-Regular.ttf") format("truetype");
+}
+@font-face {
+	font-family: "DM Mono";
+	font-style: italic;
+	font-weight: 400;
+	font-display: block;
+	src: url("../fonts/DMMono-Italic.ttf") format("truetype");
+}
+@font-face {
+	font-family: "DM Mono";
+	font-style: normal;
+	font-weight: 500;
+	font-display: block;
+	src: url("../fonts/DMMono-Medium.ttf") format("truetype");
+}
+@font-face {
+	font-family: "DM Mono";
+	font-style: italic;
+	font-weight: 500;
+	font-display: block;
+	src: url("../fonts/DMMono-MediumItalic.ttf") format("truetype");
+}
+@font-face {
+	font-family: "uni 05_53";
+	font-style: normal;
+	font-weight: 400;
+	font-display: block;
+	src: url("../fonts/uni05_53.ttf") format("truetype");
+}
+
+/* Design tokens ----------------------------------------------------------- */
+:root {
+	--primary: #b58863;
+	--foreground: #14213d;
+	--background: #f5f2ed;
+	--tertiary: #f4efe8;
+
+	--content-width: 1200px;
+	--outer: clamp(0.625rem, calc(0.625rem + ((1vw - 0.48rem) * 1.2019)), 1.25rem);
+	--gap: min(30px, 5vw);
+
+	/* Hard offset "outlined" shadow that gives the header its boxed look. */
+	--shadow: 5px 5px 0 -2px var(--background), 5px 5px var(--foreground);
+}
+
+/* Base -------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background-color: var(--background);
+	color: var(--foreground);
+	font-family: "DM Mono", monospace;
+	font-size: 0.875rem;
+	font-weight: 300;
+	line-height: 1.6;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+a {
+	color: var(--primary);
+	text-decoration: underline;
+	text-underline-offset: 0.3em;
+}
+
+a:hover,
+a:focus {
+	text-decoration: underline dotted;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+	letter-spacing: 0.05em;
+	line-height: 1.2;
+}
+
+h2 {
+	font-size: clamp(1.25rem, 1.13rem + 0.24vw, 1.375rem);
+	margin-top: calc(var(--gap) * 1.5);
+}
+
+h3 {
+	font-size: clamp(1.125rem, 1.01rem + 0.24vw, 1.25rem);
+}
+
+mark {
+	background: none;
+	color: inherit;
+}
+
+/* Layout ------------------------------------------------------------------ */
+.container {
+	max-width: var(--content-width);
+	margin-inline: auto;
+	padding-inline: var(--outer);
+}
+
+/* Header ------------------------------------------------------------------ */
+.site-header {
+	padding-top: var(--outer);
+}
+
+.header-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 1.5rem;
+	padding: 0.67rem;
+	border: 2px solid var(--foreground);
+	box-shadow: var(--shadow);
+}
+
+.site-title {
+	margin: 0;
+	font-family: "uni 05_53", monospace;
+	font-size: 0.875rem;
+	font-weight: 400;
+	letter-spacing: normal;
+	text-transform: uppercase;
+}
+
+.site-title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.site-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.site-nav a {
+	color: var(--foreground);
+	text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a:focus {
+	text-decoration: underline dotted;
+	text-underline-offset: 0.3em;
+}
+
+/* Main -------------------------------------------------------------------- */
+main {
+	padding-top: 3.5rem;
+	padding-bottom: 3rem;
+}
+
+main a:hover,
+main a:focus {
+	font-style: italic;
+}
+
+section + section {
+	margin-top: 0.5rem;
+}
+
+/* About ------------------------------------------------------------------- */
+.about {
+	display: grid;
+	grid-template-columns: 18% auto;
+	gap: var(--gap);
+	align-items: start;
+}
+
+.about .portrait {
+	width: 100%;
+}
+
+.about p:first-child {
+	margin-top: 0;
+}
+
+/* Publications ------------------------------------------------------------ */
+.pub-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.pub-list li {
+	margin-bottom: 1rem;
+}
+
+.pub-title {
+	display: block;
+}
+
+.me {
+	color: var(--primary);
+}
+
+.note {
+	margin-top: 1.5rem;
+}
+
+/* Footer ------------------------------------------------------------------ */
+.site-footer {
+	padding: 2.25rem 0;
+	text-align: center;
+	font-size: 0.813rem;
+}
+
+/* Responsive -------------------------------------------------------------- */
+@media (max-width: 640px) {
+	.about {
+		grid-template-columns: 1fr;
+	}
+
+	.about .portrait {
+		width: 40%;
+	}
+}
