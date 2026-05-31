@@ -59,7 +59,7 @@
 	--primary: #b58863;
 	--foreground: #14213d;
 	--background: #f5f2ed;
-	--tertiary: #f4efe8;
+	--tertiary: #ece5d9;       /* elevated surface — pill & chip backgrounds */
 
 	--content-width: 1200px;
 	--outer: clamp(0.625rem, calc(0.625rem + ((1vw - 0.48rem) * 1.2019)), 1.25rem);
@@ -67,6 +67,7 @@
 
 	/* Hard offset "outlined" shadow that gives the header its boxed look. */
 	--shadow: 5px 5px 0 -2px var(--background), 5px 5px var(--foreground);
+	--shadow-sm: 3px 3px 0 -1px var(--background), 3px 3px var(--foreground);
 }
 
 /* Base -------------------------------------------------------------------- */
@@ -74,6 +75,28 @@
 *::before,
 *::after {
 	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition: none !important;
+		animation: none !important;
+	}
 }
 
 body {
@@ -134,9 +157,31 @@ mark {
 	padding-inline: var(--outer);
 }
 
+/* Skip link --------------------------------------------------------------- */
+.skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+}
+
+.skip-link:focus {
+	left: var(--outer);
+	top: 0.5rem;
+	z-index: 20;
+	background: var(--foreground);
+	color: var(--background);
+	padding: 0.5rem 0.75rem;
+	text-decoration: none;
+}
+
 /* Header ------------------------------------------------------------------ */
 .site-header {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	background: var(--background);
 	padding-top: var(--outer);
+	padding-bottom: 0.5rem;
 }
 
 .header-bar {
@@ -189,7 +234,11 @@ main {
 
 main a:hover,
 main a:focus {
-	font-style: italic;
+	color: var(--foreground);
+}
+
+section {
+	scroll-margin-top: 5rem;
 }
 
 section + section {
@@ -199,7 +248,7 @@ section + section {
 /* About ------------------------------------------------------------------- */
 .about {
 	display: grid;
-	grid-template-columns: 18% auto;
+	grid-template-columns: clamp(120px, 16%, 170px) auto;
 	gap: var(--gap);
 	align-items: start;
 }
@@ -212,6 +261,29 @@ section + section {
 	margin-top: 0;
 }
 
+/* Social chips ------------------------------------------------------------ */
+.social {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1.5rem;
+}
+
+.social a {
+	text-decoration: none;
+	padding: 0.2rem 0.6rem;
+	border: 1.5px solid var(--foreground);
+	background: var(--tertiary);
+	color: var(--foreground);
+	transition: box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.social a:hover,
+.social a:focus {
+	box-shadow: var(--shadow-sm);
+	color: var(--primary);
+}
+
 /* Publications ------------------------------------------------------------ */
 .pub-list {
 	list-style: none;
@@ -220,19 +292,98 @@ section + section {
 }
 
 .pub-list li {
-	margin-bottom: 1rem;
+	margin-bottom: 0.85rem;
+}
+
+/* Always-visible row: title + venue badge side by side. */
+.pub-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 0.4rem 0.6rem;
 }
 
 .pub-title {
-	display: block;
+	font-weight: 500;
+	line-height: 1.3;
+	transition: color 0.15s ease;
 }
 
 .me {
 	color: var(--primary);
+	font-weight: 500;
+}
+
+/* Venue badge — reuses the offset-shadow motif at a smaller scale. */
+.pub-list em {
+	flex: none;
+	font-style: normal;
+	font-size: 0.75rem;
+	font-weight: 500;
+	padding: 0.05rem 0.4rem;
+	background: var(--tertiary);
+	border: 1.5px solid var(--foreground);
+	box-shadow: var(--shadow-sm);
+}
+
+/* Authors + links: hidden until the entry is hovered or focused.
+   The 0fr -> 1fr grid animates to the exact content height. */
+.pub-meta {
+	display: grid;
+	grid-template-rows: 0fr;
+	opacity: 0;
+	transition: grid-template-rows 0.25s ease, opacity 0.2s ease;
+}
+
+.pub-meta-inner {
+	overflow: hidden;
+}
+
+@media (hover: hover) {
+	.pub-list li:hover .pub-meta,
+	.pub-list li:focus-within .pub-meta {
+		grid-template-rows: 1fr;
+		opacity: 1;
+		margin-top: 0.35rem;
+	}
+
+	.pub-list li:hover .pub-title,
+	.pub-list li:focus-within .pub-title {
+		color: var(--primary);
+	}
+}
+
+/* Touch / no-hover devices can't hover — keep everything visible. */
+@media (hover: none) {
+	.pub-meta {
+		grid-template-rows: 1fr;
+		opacity: 1;
+		margin-top: 0.35rem;
+	}
 }
 
 .note {
 	margin-top: 1.5rem;
+}
+
+/* Link lists (Tools, Blog) ------------------------------------------------ */
+.link-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.link-list li {
+	position: relative;
+	margin-bottom: 0.6rem;
+	padding-left: 1.1rem;
+}
+
+.link-list li::before {
+	content: "\2192";
+	position: absolute;
+	left: 0;
+	color: var(--primary);
 }
 
 /* Footer ------------------------------------------------------------------ */
