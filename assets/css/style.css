@@ -185,6 +185,7 @@ mark {
 }
 
 .header-bar {
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -193,6 +194,21 @@ mark {
 	padding: 0.67rem;
 	border: 2px solid var(--foreground);
 	box-shadow: var(--shadow);
+	overflow: hidden;
+	isolation: isolate;
+}
+
+/* Interactive pixel-dot matrix injected behind a host's content. Used in the
+   header box and inside each social chip; glows & radiates toward the cursor.
+   Negative z keeps it above the host's own background but below its text. */
+.pixel-fx-canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	display: block;
+	pointer-events: none;
 }
 
 .site-title {
@@ -270,6 +286,9 @@ section + section {
 }
 
 .social a {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
 	text-decoration: none;
 	padding: 0.2rem 0.6rem;
 	border: 1.5px solid var(--foreground);
